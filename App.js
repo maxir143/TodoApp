@@ -6,21 +6,31 @@ export default function App() {
       title: 'hacer app nativa',
       completed: false,
       time: 600
+    },
+    {
+      title: 'hacer app nativa 2',
+      completed: true,
+      time: 500
+    },
+    {
+      title: 'hacer app nativa 3',
+      completed: false,
+      time: 400
     }
   ]
   return (
-    <SafeAreaView style={styles.mainView}>
-      <View style={styles.inputView}>
-        <TextInput placeholder='todo' />
+    <SafeAreaView style={styles.mainContainer}>
+      <View style={styles.inputContainer}>
+        <TextInput style={styles.todoInput} placeholder='todo' />
         <Button title='+' style={styles.addButton} />
       </View>
-      <View style={styles.todoList}>
+      <View style={styles.todoListContainer}>
         {todos.map((todo, index) => 
-          (<Text key={index}>
-            {todo.title}
-            {todo.completed ? <Button title='❌' /> :  <Button title='✔' /> }
-            {todo.completed ? null :  <Button title='+ 1hora'/> }
-          </Text>)
+          (<View key={index} style={styles.todoListItem}>
+            <Text style={styles.todoListTitle}>{todo.title}</Text>
+            <Button style={styles.completeButton} title='hola' />
+            {todo.completed ? <Button title='❌' style={styles.completeButton} /> :  <Button title='✔' style={styles.completeButton} /> }
+          </View>)
         )}
       </View>
     </SafeAreaView>
@@ -28,23 +38,36 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  mainView: {
+  mainContainer: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  inputView: {
-    flex:1,
+  inputContainer: {
+    width: 400,
+    justifyContent: 'space-around',
     flexDirection:'row',
     margin:50,
-    justifyContent: 'space-around',
+  },
+  todoListContainer: {
+    alignContent:'center',
+    flex: 3,
     width: '90%'
   },
-  todoList: {
-    flex: 3
+  todoListItem: {
+    flexDirection:'row'
+  },
+  todoListTitle:{
+    flex:1
+  },
+  completeButton:{
+    width: 500,
+    color: 'red',
+    backgroundColor: 'yellow'
   },
   addButton: {
+    justifyContent: 'center',
     width:10,
     height:10 
   }
