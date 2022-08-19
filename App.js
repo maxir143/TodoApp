@@ -37,8 +37,8 @@ export default function App() {
         {todos.map((todo, index) => 
           (<View key={index} style={styles.todoListItem}>
             <Text style={styles.todoListTitle}>{todo.title}</Text>
-            <Pressable  style={styles.completeButton} onPressIn={() => toggleCompleted(index)}>
-              {todo.completed ? <Button title='❌' /> :  <Button title='✔'/> }
+            <Pressable  style={styles.completeButton} onPress={() => toggleCompleted(index) }> 
+              <Text> {todo.completed ? '❌': '✔'} </Text>
             </Pressable>
           </View>)
         )}
@@ -70,11 +70,14 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   todoListTitle:{
-    width: '80%',
-    color: '#841584'
+    width: '80%'
   },
   completeButton:{
-    width: '10%'
+    width: 50,
+    height: 50,
+    backgroundColor: 'dodgerblue',
+    justifyContent: 'center',
+    alignItems:'center'
   },
   addButton: {
   }
