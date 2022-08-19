@@ -1,7 +1,8 @@
-import { StyleSheet, TextInput , View, SafeAreaView, Button, ScrollView, Text} from 'react-native';
+import { useState } from 'react';
+import { StyleSheet,Pressable , TextInput , View, SafeAreaView, Button, Text, Alert} from 'react-native';
 
 export default function App() {
-  const todos = [
+  let todosList = [
     {
       title: 'hacer app nativa',
       completed: false,
@@ -18,6 +19,14 @@ export default function App() {
       time: 400
     }
   ]
+
+  const [todos, setTodos] = useState(todosList)
+
+  const toggleCompleted = (index) => {
+    console.log(index)
+    setTodos(todos.map((todo, i) => i === index ? {...todo, completed : !todo.completed} : todo))
+  }
+
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.inputContainer}>
@@ -28,8 +37,9 @@ export default function App() {
         {todos.map((todo, index) => 
           (<View key={index} style={styles.todoListItem}>
             <Text style={styles.todoListTitle}>{todo.title}</Text>
-            <Button style={styles.completeButton} title='hola' />
-            {todo.completed ? <Button title='❌' style={styles.completeButton} /> :  <Button title='✔' style={styles.completeButton} /> }
+            <Pressable  style={styles.completeButton} onPressIn={() => toggleCompleted(index)}>
+              {todo.completed ? <Button title='❌' /> :  <Button title='✔'/> }
+            </Pressable>
           </View>)
         )}
       </View>
@@ -56,19 +66,16 @@ const styles = StyleSheet.create({
     width: '90%'
   },
   todoListItem: {
-    flexDirection:'row'
+    flexDirection:'row',
+    marginBottom: 10
   },
   todoListTitle:{
-    flex:1
+    width: '80%',
+    color: '#841584'
   },
   completeButton:{
-    width: 500,
-    color: 'red',
-    backgroundColor: 'yellow'
+    width: '10%'
   },
   addButton: {
-    justifyContent: 'center',
-    width:10,
-    height:10 
   }
 });
