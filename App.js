@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { StyleSheet,Pressable , TextInput , View, SafeAreaView, Button, Text, Alert} from 'react-native';
+import { useState } from 'react'
+import { StyleSheet,Pressable , TextInput , View, SafeAreaView, Text, ScrollView} from 'react-native'
 
 export default function App() {
   let todosList = [
@@ -21,28 +21,50 @@ export default function App() {
   ]
 
   const [todos, setTodos] = useState(todosList)
+  const [todoText, onChangeTodoText] = useState('')
 
   const toggleCompleted = (index) => {
-    console.log(index)
     setTodos(todos.map((todo, i) => i === index ? {...todo, completed : !todo.completed} : todo))
+  }
+
+  const deleteTodo = (index) => {
+    setTodos(todos.filter((todo, i) => i !== index ))
+  }
+
+  const addTodo = (todo) => {
+    todo.title = todoText
+    todo.completed = false
+
+    setTodos(todos => [...todos, todo])
+    onChangeTodoText('')
   }
 
   return (
     <SafeAreaView style={styles.mainContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.todoInput} placeholder='todo' />
-        <Button title='+' style={styles.addButton} />
+        <TextInput 
+          style={styles.todoInput} 
+          placeholder='todo' 
+          onChangeText={text => onChangeTodoText(text)}
+          value={todoText}
+        />
+        <Pressable style={styles.addButton} onPress={addTodo}>
+          <Text style={{color:'white'}}>+</Text>
+        </Pressable>
       </View>
-      <View style={styles.todoListContainer}>
+      <ScrollView style={styles.todoListContainer}>
         {todos.map((todo, index) => 
           (<View key={index} style={styles.todoListItem}>
             <Text style={styles.todoListTitle}>{todo.title}</Text>
-            <Pressable  style={styles.completeButton} onPress={() => toggleCompleted(index) }> 
-              <Text> {todo.completed ? '❌': '✔'} </Text>
+            <Pressable  
+            style={styles.completeButton} 
+            onPress={() => toggleCompleted(index)} 
+            onLongPress={() => deleteTodo(index)}> 
+              <Text> {todo.completed ? '✔': '❌'} </Text>
             </Pressable>
           </View>)
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -80,5 +102,10 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   addButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'dodgerblue',
+    justifyContent: 'center',
+    alignItems:'center'
   }
 });
