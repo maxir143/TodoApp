@@ -1,23 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { StyleSheet,Pressable , TextInput , View, SafeAreaView, Text, ScrollView} from 'react-native'
 
 export default function App() {
   let todosList = [
-    {
-      title: 'hacer app nativa',
-      completed: false,
-      time: 600
-    },
-    {
-      title: 'hacer app nativa 2',
-      completed: true,
-      time: 500
-    },
-    {
-      title: 'hacer app nativa 3',
-      completed: false,
-      time: 400
-    }
   ]
 
   const [todos, setTodos] = useState(todosList)
@@ -32,16 +17,16 @@ export default function App() {
   }
 
   const addTodo = (todo) => {
+    if (todoText.length === 0) return
     todo.title = todoText
     todo.completed = false
-
     setTodos(todos => [...todos, todo])
     onChangeTodoText('')
   }
-
+  
   return (
     <SafeAreaView style={styles.mainContainer}>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, todoText.length === 0 ?  styles.inputError : null]}>
         <TextInput 
           style={styles.todoInput} 
           placeholder='todo' 
@@ -77,22 +62,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inputContainer: {
-    width: 400,
-    justifyContent: 'space-around',
+    width: '90%',
+    justifyContent: 'space-between',
     flexDirection:'row',
     margin:50,
+    backgroundColor: '#EFEFEF'
+  },
+  todoInput: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  inputError:{
+    backgroundColor: '#FFB7B7'
   },
   todoListContainer: {
-    alignContent:'center',
-    flex: 3,
-    width: '90%'
+    
   },
   todoListItem: {
     flexDirection:'row',
-    marginBottom: 10
+    marginBottom: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   todoListTitle:{
-    width: '80%'
+    width: '80%',
   },
   completeButton:{
     width: 50,
